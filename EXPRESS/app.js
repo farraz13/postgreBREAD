@@ -12,12 +12,8 @@ const pool = new Pool({
   password: '12345',
   port: 5432,
 })
-pool.query('SELECT * FROM tasks', (err, res) => {
-  console.log(res.rows)
-  pool.end()
-})
 
-var indexRouter = require('./routes/index');
+var indexRouter = require('./routes/index')(pool);
 var usersRouter = require('./routes/users');
 
 var app = express();

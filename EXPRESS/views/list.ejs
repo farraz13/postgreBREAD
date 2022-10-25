@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1>BREADS</h1>
+    </div>
+    <div class="card-body">
+
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>String</th>
+          <th>integer</th>
+          <th>Float</th>
+          <th>date</th>
+          <th>Boolean</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% tasks.forEach((item, index)=>{ %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= item.string %></td>
+          <td><%= item.integer %></td>
+          <td><%= item.float %></td>
+          <td><%= item.date %></td>
+          <td><%= item.boolean %></td>
+          
+          
+          <td>
+            <a href="" class="btn btn-success">edit</a>
+            <a href="" class="btn btn-danger">delete</a>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
