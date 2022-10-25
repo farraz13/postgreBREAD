@@ -13,5 +13,9 @@ module.exports = function (db) {
     })
   });
 
+  router.get('/add', function (req, res, next) {
+      res.render('form', {})
+    })
+  
   return router;
 }

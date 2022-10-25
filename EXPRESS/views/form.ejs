@@ -1,0 +1,62 @@
+<%- include('./partials/header') %>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h1>Add</h1>
+      </div>
+      <div class="card-body">
+        <form>
+
+          <div class="row mb-3">
+            <label for="ID" class="col-sm-2 col-form-label"><input type="checkbox" name="idCheck"> ID</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="ID" name="id">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="string" class="col-sm-2 col-form-label"><input type="checkbox" name="stringCheck">
+              String</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="string" name="string">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="integer" class="col-sm-2 col-form-label"><input type="checkbox" name="intCheck"> Integer</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="integer" name="integer">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="float" class="col-sm-2 col-form-label"><input type="checkbox" name="floatCheck"> Float</label>
+            <div class="col-sm-10">
+              <input type="number" step="0.5" class="form-control" id="float" name="float">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="date" class="col-sm-2 col-form-label"><input type="checkbox" name="dateCheck"> Date</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="date" name="date">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="boolean" class="col-sm-2 col-form-label"><input type="checkbox" name="booleanCheck">
+              Boolean</label>
+            <div class="col-sm-10">
+              <select type="boolea" class="form-control" id="boolean" name="boolean">
+                <option value="">true</option>
+                <option value="">false</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save</button>
+          <a href="/" class="btn btn-warning">Back</a>
+        </form>
+    </div>
+  </div>
+  <%- include('./partials/footer') %>
