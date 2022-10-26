@@ -7,14 +7,57 @@ const moment = require('moment')
 module.exports = function (db) {
 
   router.get('/', function (req, res, next) {
-    db.query('SELECT * FROM tasks', (err, data) => {
+
+    let Params = []
+    let values = []
+
+    if (req.query.string) {
+      values.push(req.query.string)
+      params.push(`string ilike '%' || ${values.length} || '%'`)
+    }
+    if (req.query.date) {
+      params.push(` ilike '%' || ${values.length + 1} || '%'`)
+    }
+    if (req.query.string) {
+      params.push(`string ilike '%' || ${values.length + 1} || '%'`)
+    }
+    if (req.query.string) {
+      params.push(`string ilike '%' || ${values.length + 1} || '%'`)
+    }
+    if (req.query.string) {
+      params.push(`string ilike '%' || ${values.length + 1} || '%'`)
+    }
+    if (req.query.string) {
+      params.push(`string ilike '%' || ${values.length + 1} || '%'`)
+    }
+
+    let page = req.query.page || 1
+    page = Number(page)
+    const limit = 3
+    const offset = (page - 1) * limit
+
+    db.query('SELECT count (*) AS total FROM tasks', (err, data) => {
       if (err) return res.send(err, 'error bang')
-      res.render('list', { tasks: data.rows, moment })
-    })
-  });
+
+      const total = data.rows[0].total
+      const pages = Math.ceil(total / limit)
+
+      db.query('SELECT * FROM tasks LIMIT $1 OFFSET $2', [limit, offset], (err, data) => {
+        if (err) return res.send(err, 'error bang')
+        res.render('list', {
+          tasks: data.rows,
+          moment,
+          page,
+          pages,
+          offset
+        })
+      })
+    });
+
+  })
 
   router.get('/add', function (req, res, next) {
-    res.render('form',{item: {}, moment})
+    res.render('form', { item: {}, moment })
   })
 
 
@@ -30,8 +73,8 @@ module.exports = function (db) {
   router.get('/edit/:id', function (req, res, next) {
     db.query('SELECT * FROM tasks WHERE id =$1', [Number(req.params.id)], (err, data) => {
       if (err) return res.send(err, 'error bang')
-      if(data.rows.length == 0)return res.send(err, 'data not found')
-      res.render('form', {item: data.rows[0], moment })
+      if (data.rows.length == 0) return res.send(err, 'data not found')
+      res.render('form', { item: data.rows[0], moment })
     })
   });
 

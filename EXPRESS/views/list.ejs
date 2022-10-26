@@ -1,96 +1,148 @@
 <%- include('./partials/header') %>
-<div class="container">
-  <div class="card">
-    <div class="card-header">
-      <h1>BREAD (Browse, Read, Edit, Add, Delete)</h1>
-    </div>
-    <div class="card-body">
-      <form>
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h1>BREAD (Browse, Read, Edit, Add, Delete)</h1>
+      </div>
+      <div class="card-body">
+        <form action="" method="get">
+          <input type="hidden" name="page" value="1">
 
-        <div class="row mb-3">
-          <label for="ID" class="col-sm-2 col-form-label"><input type="checkbox" name="idCheck"> ID</label>
-          <div class="col-sm-10">
-            <input type="number" class="form-control" id="ID" name="id">
+          <div class="row mb-3">
+            <label for="ID" class="col-sm-2 col-form-label"><input type="checkbox" name="idCheck"> ID</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="ID" name="id">
+            </div>
           </div>
-        </div>
 
-        <div class="row mb-3">
-          <label for="string" class="col-sm-2 col-form-label"><input type="checkbox" name="stringCheck"> String</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="string" name="string">
+          <div class="row mb-3">
+            <label for="string" class="col-sm-2 col-form-label"><input type="checkbox" name="stringCheck">
+              String</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="string" name="string">
+            </div>
           </div>
-        </div>
 
-        <div class="row mb-3">
-          <label for="integer" class="col-sm-2 col-form-label"><input type="checkbox" name="intCheck"> Integer</label>
-          <div class="col-sm-10">
-            <input type="number" class="form-control" id="integer" name="integer">
+          <div class="row mb-3">
+            <label for="integer" class="col-sm-2 col-form-label"><input type="checkbox" name="intCheck"> Integer</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="integer" name="integer">
+            </div>
           </div>
-        </div>
 
-        <div class="row mb-3">
-          <label for="float" class="col-sm-2 col-form-label"><input type="checkbox" name="floatCheck"> Float</label>
-          <div class="col-sm-10">
-            <input type="number" step="0.5" class="form-control" id="float" name="float">
+          <div class="row mb-3">
+            <label for="float" class="col-sm-2 col-form-label"><input type="checkbox" name="floatCheck"> Float</label>
+            <div class="col-sm-10">
+              <input type="number" step="0.5" class="form-control" id="float" name="float">
+            </div>
           </div>
-        </div>
 
-        <div class="row mb-3">
-          <label for="date" class="col-sm-2 col-form-label"><input type="checkbox" name="dateCheck"> Date</label>
-          <div class="col-sm-10">
-            <input type="date" class="form-control" id="date" name="date">
+          <div class="row mb-3">
+            <label for="date" class="col-sm-2 col-form-label"><input type="checkbox" name="dateCheck"> Date</label>
+            <div class="col-sm-10 row align-items-center justify-content-between ">
+              <div class="col-sm-5"></div>
+              <input type="date" class="form-control" id="fromdate" name="fromdate">
+            </div>
           </div>
-        </div>
-        
-        <div class="row mb-3">
-          <label for="boolean" class="col-sm-2 col-form-label"><input type="checkbox" name="booleanCheck"> Boolean</label>
-          <div class="col-sm-10">
-            <select type="boolea" class="form-control" id="boolean" name="boolean">
-              <option value="">true</option>
-              <option value="">false</option>
-            </select>
+          <div class="col-sm-1">
+            S.D.
           </div>
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Search</button>
-        <a href="/" class="btn btn-warning">Reset</a>
+
+          <div class="row mb-3">
+            <label for="date" class="col-sm-2 col-form-label"><input type="checkbox" name="dateCheck"> Date</label>
+            <div class="col-sm-10 row align-items-center justify-content-between ">
+              <div class="col-sm-5"></div>
+              <input type="date" class="form-control" id="todate" name="todate">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="boolean" class="col-sm-2 col-form-label"><input type="checkbox" name="booleanCheck">
+              Boolean</label>
+            <div class="col-sm-10">
+              <select type="boolea" class="form-control" id="boolean" name="boolean">
+                <option value="">true</option>
+                <option value="">false</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Search</button>
+          <a href="/" class="btn btn-warning">Reset</a>
         </form>
-    </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>String</th>
-          <th>integer</th>
-          <th>Float</th>
-          <th>date</th>
-          <th>Boolean</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% tasks.forEach((item, index)=>{ %>
-        <tr>
-          <td><%= index + 1 %></td>
-          <td><%= item.string %></td>
-          <td><%= item.integer %></td>
-          <td><%= item.float %></td>
-          <td><%= moment(item.date).format('MMM Do, YYYY') %></td>
-          <td><%= item.boolean %></td>
-          
-          
-          <td>
-            <a href="/edit/<%= item.id %>" class="btn btn-success">edit</a>
-            <a href="/delete/<%= item.id%>" class="btn btn-danger" onclick="return confirm('yakin bang')">delete</a>
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
-<div class="card-footer">
-  <a href="/add" class="btn btn-primary">Add</a>
-</div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>String</th>
+            <th>integer</th>
+            <th>Float</th>
+            <th>date</th>
+            <th>Boolean</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% tasks.forEach((item, index) =>{ %>
+            <tr>
+              <td>
+                <%= offset + index + 1 %>
+              </td>
+              <td>
+                <%= item.string %>
+              </td>
+              <td>
+                <%= item.integer %>
+              </td>
+              <td>
+                <%= item.float %>
+              </td>
+              <td>
+                <%= moment(item.date).format('MMM Do, YYYY') %>
+              </td>
+              <td>
+                <%= item.boolean %>
+              </td>
 
+
+              <td>
+                <a href="/edit/<%= item.id %>" class="btn btn-success">edit</a>
+                <a href="/delete/<%= item.id%>" class="btn btn-danger" onclick="return confirm('yakin bang')">delete</a>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+      <div class="card-footer d-flex justify-content-between">
+        <a href="/add" class="btn btn-primary">Add</a>
+
+        <div class="pagination">
+          <nav aria-label="...">
+            <ul class="pagination">
+              <li class="page-item">
+                <% if (page != 1) {%>
+                <a class="page-link" href="/?page=<%= page - 1%>">Previous</a>
+                <% } %>
+              </li>
+
+              <% for(let i = 1; i <= pages; i++) { %>
+              <li class="page-item">
+                <a class="page-link" href="/?page=<%= i%>"><%= i %></a>
+              </li>
+              <% } %>
+
+              <li class="page-item">
+                <% if (page <= pages && page != pages) { %>
+                <a class="page-link" href="/?page=<%= page + 1%>">Next</a>
+                <% } %>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+
+    </div>
   </div>
-</div>
-<%- include('./partials/footer') %>
+  <%- include('./partials/footer') %>

@@ -160,10 +160,10 @@ input[type=submit]:hover {
 }
 
 .pagination {
-  margin-left: 60rem;
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 0.3rem 1rem;
+  margin-left:none;
+  border: none;
+  border-radius:none;
+  padding: none;
   background-color: whitesmoke;
 }
 
@@ -172,7 +172,7 @@ input[type=submit]:hover {
 }
 
 button[type=submit] {
-  background-color: #04cefc;
+  background-color:navy;
   color: white;
   padding: 12px 20px;
   border: none;
