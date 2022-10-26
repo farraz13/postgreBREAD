@@ -6,50 +6,87 @@ const moment = require('moment')
 
 module.exports = function (db) {
 
-  router.get('/', function (req, res, next) {
+  router.get('/', function (req, res) {
 
-    let Params = []
+    let params = []
     let values = []
+    let count  = 1
 
-    if (req.query.string) {
-      values.push(req.query.string)
-      params.push(`string ilike '%' || ${values.length} || '%'`)
-    }
-    if (req.query.date) {
-      params.push(` ilike '%' || ${values.length + 1} || '%'`)
-    }
-    if (req.query.string) {
-      params.push(`string ilike '%' || ${values.length + 1} || '%'`)
-    }
-    if (req.query.string) {
-      params.push(`string ilike '%' || ${values.length + 1} || '%'`)
-    }
-    if (req.query.string) {
-      params.push(`string ilike '%' || ${values.length + 1} || '%'`)
-    }
-    if (req.query.string) {
-      params.push(`string ilike '%' || ${values.length + 1} || '%'`)
-    }
+    
+    if (req.query.id && req.query.idCheck == 'on') {
+      params.push(`id = $${count++}`);
+      values.push(req.query.id);
+  }
+
+  if (req.query.string && req.query.stringCheck == 'on') {
+      params.push(`string ilike '%' || $${count++} || '%'`);
+      values.push(req.query.string);
+  }
+
+  if (req.query.integer && req.query.integerCheck == 'on') {
+      params.push(`integer = $${count++}`)
+      values.push(req.query.integer);
+  }
+
+  if (req.query.float && req.query.floatCheck == 'on') {
+      params.push(`float = $${count++}`)
+      values.push(req.query.float);
+  }
+
+  if (req.query.dateCheck == 'on') {
+      if (req.query.fromdate != '' && req.query.todate != '') {
+          params.push(`date BETWEEN $${count++} AND $${count++}`)
+          values.push(req.query.fromDate);
+          values.push(req.query.toDate);
+      }
+      else if (req.query.fromdate) {
+          params.push(`date > $${count++}`)
+          values.push(req.query.fromdate);
+      }
+      else if (req.query.todate) {
+          params.push(`date < $${count++}`)
+          values.push(req.query.todate);
+      }
+  }
+
+  if (req.query.boolean && req.query.booleanCheck == 'on') {
+      params.push(`boolean = $${count++}`);
+      values.push(req.query.boolean);
+  }
 
     let page = req.query.page || 1
     page = Number(page)
     const limit = 3
     const offset = (page - 1) * limit
 
-    db.query('SELECT count (*) AS total FROM tasks', (err, data) => {
+    let sql = 'SELECT count (*) AS total FROM tasks';
+
+    if (params.length > 0) {
+      sql += ` WHERE ${params.join(' AND ')}`
+    }
+
+    db.query(sql, values, (err, data) => {
       if (err) return res.send(err, 'error bang')
 
       const total = data.rows[0].total
       const pages = Math.ceil(total / limit)
 
-      db.query('SELECT * FROM tasks LIMIT $1 OFFSET $2', [limit, offset], (err, data) => {
-        if (err) return res.send(err, 'error bang')
+      sql = 'SELECT * FROM tasks'
+      if (params.length > 0) {
+        sql += ` WHERE ${params.join(' AND ')}`
+      }
+
+      sql += ` LIMIT $${values.length + 1} OFFSET $${values.length + 2}`
+
+      db.query(sql, [...values, limit, offset], (err, data) => {
+        if (err) return res.send(err)
         res.render('list', {
           tasks: data.rows,
           moment,
           page,
           pages,
-          offset
+          offset,
+          query: req.query
         })
       })
     });
@@ -63,7 +100,6 @@ module.exports = function (db) {
 
   router.post('/add', function (req, res, next) {
     const { string, integer, float, date, boolean } = req.body
-    console.log(req.body)
     db.query('INSERT INTO tasks(string, integer, float, date, boolean) values ($1, $2, $3, $4, $5)', [string, integer, float, date, boolean], (err) => {
       if (err) return res.send(err, 'error bang')
       res.redirect('/')
@@ -80,7 +116,6 @@ module.exports = function (db) {
 
   router.post('/edit/:id', function (req, res, next) {
     const { string, integer, float, date, boolean } = req.body
-    console.log(req.body)
     db.query('UPDATE tasks SET string = $1, integer = $2, float = $3, date = $4, boolean = $5, id = $6  ', [string, integer, float, date, boolean, Number(req.params.id)], (err) => {
       if (err) return res.send(err, 'error bang')
       res.redirect('/')

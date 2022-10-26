@@ -11,15 +11,15 @@
           <div class="row mb-3">
             <label for="ID" class="col-sm-2 col-form-label"><input type="checkbox" name="idCheck"> ID</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" id="ID" name="id">
+              <input type="number" class="form-control" id="ID" name="id" value="<%= query.id %>">
             </div>
           </div>
 
           <div class="row mb-3">
-            <label for="string" class="col-sm-2 col-form-label"><input type="checkbox" name="stringCheck">
+            <label for="string" class="col-sm-2 col-form-label"><input type="checkbox" name="stringCheck" <%=query.stringCheck=='on' ? 'checked' : '' %>>
               String</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="string" name="string">
+              <input type="text" class="form-control" id="string" name="string" value="<%= query.string %>">
             </div>
           </div>
 
@@ -52,7 +52,7 @@
             <label for="date" class="col-sm-2 col-form-label"><input type="checkbox" name="dateCheck"> Date</label>
             <div class="col-sm-10 row align-items-center justify-content-between ">
               <div class="col-sm-5"></div>
-              <input type="date" class="form-control" id="todate" name="todate">
+              <input type="date" class="form-control" id="todate" name="date">
             </div>
           </div>
 
@@ -60,7 +60,7 @@
             <label for="boolean" class="col-sm-2 col-form-label"><input type="checkbox" name="booleanCheck">
               Boolean</label>
             <div class="col-sm-10">
-              <select type="boolea" class="form-control" id="boolean" name="boolean">
+              <select class="form-control" id="boolean" name="boolean">
                 <option value="">true</option>
                 <option value="">false</option>
               </select>
@@ -74,6 +74,7 @@
       <table class="table">
         <thead>
           <tr>
+            <th>No</th>
             <th>ID</th>
             <th>String</th>
             <th>integer</th>
@@ -88,6 +89,9 @@
             <tr>
               <td>
                 <%= offset + index + 1 %>
+              </td>
+              <td>
+                <%= item.id %>
               </td>
               <td>
                 <%= item.string %>
