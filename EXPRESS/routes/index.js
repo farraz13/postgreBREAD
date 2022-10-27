@@ -8,6 +8,7 @@ module.exports = function (db) {
 
   router.get('/', function (req, res) {
 
+    const url = req.url == '/' ? '/?page=1' : req.url
     let params = []
     let values = []
     let count  = 1
@@ -23,7 +24,7 @@ module.exports = function (db) {
       values.push(req.query.string);
   }
 
-  if (req.query.integer && req.query.integerCheck == 'on') {
+  if (req.query.integer && req.query.intCheck == 'on') {
       params.push(`integer = $${count++}`)
       values.push(req.query.integer);
   }
@@ -34,10 +35,10 @@ module.exports = function (db) {
   }
 
   if (req.query.dateCheck == 'on') {
-      if (req.query.fromdate != '' && req.query.todate != '') {
+      if (req.query.fromdate && req.query.todate  ) {
           params.push(`date BETWEEN $${count++} AND $${count++}`)
-          values.push(req.query.fromDate);
-          values.push(req.query.toDate);
+          values.push(req.query.fromdate);
+          values.push(req.query.todate);
       }
       else if (req.query.fromdate) {
           params.push(`date > $${count++}`)
@@ -86,7 +87,8 @@ module.exports = function (db) {
           page,
           pages,
           offset,
-          query: req.query
+          query: req.query,
+          url
         })
       })
     });
